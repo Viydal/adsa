@@ -63,7 +63,67 @@ std::string addition(std::string input) {
     for (size_t i = 0; i < resultingSum.size(); i++) {
         result = result + std::to_string(resultingSum[i]);
     }
+    return result;
+}
 
+std::string subtraction(std::string input) {
+    std::stringstream ss(input);
+    std::string I1, I2, base;
+
+    ss >> I1 >> I2 >> base;
+
+    std::vector<int> firstNum(I1.length(), 0);
+    std::vector<int> secondNum(I2.length(), 0);
+
+    for (size_t i = 0; i < I1.length(); i++) {
+        firstNum[i] = I1[i] - '0';
+    }
+
+    for (size_t i = 0; i < I2.length(); i++) {
+        secondNum[i] = I2[i] - '0';
+    }
+
+    size_t maxLength = std::max(firstNum.size(), secondNum.size());
+
+    int sum = 0;
+
+    int newBase = std::stoi(base);
+
+    std::vector<int> resultingSum;
+    for (size_t i = 0; i < maxLength; i++) {
+        sum = 0;
+
+        int digit1;
+        if (i < firstNum.size()) {
+            digit1 = firstNum[firstNum.size() - 1 - i];
+        } else {
+            digit1 = 0;
+        }
+
+        int digit2;
+        if (i < secondNum.size()) {
+            digit2 = secondNum[secondNum.size() - 1 - i];
+        } else {
+            digit2 = 0;
+        }
+
+        if (digit1 < digit2) {
+            firstNum[firstNum.size() - 2 - i] =
+                firstNum[firstNum.size() - 2 - i] - 1;
+            digit1 = digit1 + newBase;
+        }
+
+        sum = digit1 - digit2;
+
+        sum = sum % newBase;
+
+        resultingSum.insert(resultingSum.begin(), sum);
+    }
+
+    std::string result;
+    for (size_t i = 0; i < resultingSum.size(); i++) {
+        result = result + std::to_string(resultingSum[i]);
+    }
     return result;
 }
 
@@ -80,9 +140,9 @@ std::string karatsuba(std::string I1, std::string I2, std::string base) {
 
         std::string p0 = karatsuba(a0, b0, base);
         std::string p1 = karatsuba(a1, b1, base);
-        std::string p2 =
-            karatsuba(std::to_string(std::stoi(a0) + std::stoi(a1)),
-                      std::to_string(std::stoi(b0) + std::stoi(b1)), base);
+
+        std::string p2 = karatsuba(addition(a0 + " " + a1 + " " + base),
+                                   addition(b0 + " " + b1 + " " + base), base);
 
         std::string p1Zero = "";
         for (int i = 0; i < 2 * k; i++) {
@@ -94,17 +154,20 @@ std::string karatsuba(std::string I1, std::string I2, std::string base) {
             p2Zero.push_back('0');
         }
 
+        std::string subtractionResult1 = subtraction(p2 + " " + p1 + " " + base);
+        std::string subtractionResult2 = subtraction(subtractionResult1 + " " + p0 + " " + base);
+
         std::string p1Return = p1 + p1Zero;
-        std::string p2Return =
-            std::to_string(std::stoi(p2) - std::stoi(p1) - std::stoi(p0)) +
-            p2Zero;
+        std::string p2Return = subtractionResult2 + p2Zero;
         std::string p3Return = p0;
 
-        std::string total = std::to_string(std::stoi(p1Return) + std::stoi(p2Return) + std::stoi(p3Return));
+        std::string totalTemp1 = p1Return + " " + p2Return + " " + base;
+        std::string temp1Add = addition(totalTemp1);
 
-        int temp = std::stoi(total);
-        total = std::to_string(temp);
-        return total;
+        std::string totalTemp2 = temp1Add + " " + p3Return + " " + base;
+        std::string result = addition(totalTemp2);
+
+        return result;
     }
 }
 
@@ -118,9 +181,7 @@ std::string multiplication(std::string input) {
     return multiplicationAnswer;
 }
 
-std::string division(std::string input) {
-    return "0";
-}
+std::string division(std::string input) { return "0"; }
 
 int main() {
     std::string input;
