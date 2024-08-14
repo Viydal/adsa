@@ -10,8 +10,6 @@ std::string addition(std::string input) {
 
     ss >> I1 >> I2 >> base;
 
-    std::cout << I1 << " " << I2 << " " << base << std::endl;
-
     std::vector<int> firstNum(I1.length(), 0);
     std::vector<int> secondNum(I2.length(), 0);
 
@@ -71,8 +69,6 @@ std::string addition(std::string input) {
 
 std::string karatsuba(std::string I1, std::string I2, std::string base) {
     if (I1.length() < 2 || I2.length() < 2) {
-        std::cout << std::stoi(I1) << " TIMES " << std::stoi(I2) << " = "
-                  << std::to_string(std::stoi(I1) * std::stoi(I2)) << std::endl;
         return std::to_string(std::stoi(I1) * std::stoi(I2));
     } else {
         int k = std::ceil(std::min(I1.length(), I2.length()) / 2);
@@ -122,13 +118,15 @@ std::string multiplication(std::string input) {
     return multiplicationAnswer;
 }
 
-int main() {
-    std::string input1 = "123 132 10";
-    std::string input2 = "101 1111 2";
+std::string division(std::string input) {
+    return "0";
+}
 
-    std::cout << addition(input1) << std::endl;
-    std::cout << multiplication(input1) << std::endl;
-    std::cout << std::endl;
-    std::cout << addition(input2) << std::endl;
-    std::cout << multiplication(input2) << std::endl;
+int main() {
+    std::string input;
+    std::getline(std::cin, input);
+
+    std::cout << addition(input) << " ";
+    std::cout << multiplication(input) << " ";
+    std::cout << division(input) << std::endl;
 }
