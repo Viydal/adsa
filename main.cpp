@@ -146,10 +146,7 @@ std::string miniMultiplication(std::string input) {
     int sum = 0;
 
     int newBase = std::stoi(base);
-
-    int digit2;
-    digit2 = secondNum[0];
-
+    
     std::vector<int> resultingSum;
     for (size_t i = 0; i < maxLength; i++) {
         sum = 0;
@@ -157,8 +154,11 @@ std::string miniMultiplication(std::string input) {
         int digit1;
         if (i < firstNum.size()) {
             digit1 = firstNum[firstNum.size() - 1 - i];
-        } else {
-            digit1 = 0;
+        }
+
+        int digit2;
+        if (i < secondNum.size()) {
+            digit2 = secondNum[secondNum.size() - 1 - i];
         }
 
         sum = (digit1 * digit2) + carry;
