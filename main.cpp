@@ -26,8 +26,9 @@ std::string addition(std::string input) {
     int carry = 0;
     int sum = 0;
 
+    // std::cout << "HERE" << std::endl;
     int newBase = std::stoi(base);
-
+    // std::cout << "NOT HERE" << std::endl;
     std::vector<int> resultingSum;
     for (size_t i = 0; i < maxLength; i++) {
         sum = 0;
@@ -67,6 +68,7 @@ std::string addition(std::string input) {
 }
 
 std::string subtraction(std::string input) {
+    // std::cout << "WE GET HERE? " << input << std::endl;
     std::stringstream ss(input);
     std::string I1, I2, base;
 
@@ -85,14 +87,12 @@ std::string subtraction(std::string input) {
 
     size_t maxLength = std::max(firstNum.size(), secondNum.size());
 
-    int sum = 0;
+    int carry = 0;
 
     int newBase = std::stoi(base);
 
     std::vector<int> resultingSum;
     for (size_t i = 0; i < maxLength; i++) {
-        sum = 0;
-
         int digit1;
         if (i < firstNum.size()) {
             digit1 = firstNum[firstNum.size() - 1 - i];
@@ -107,17 +107,15 @@ std::string subtraction(std::string input) {
             digit2 = 0;
         }
 
-        if (digit1 < digit2) {
-            firstNum[firstNum.size() - 2 - i] =
-                firstNum[firstNum.size() - 2 - i] - 1;
-            digit1 = digit1 + newBase;
+        int temp = digit1 - digit2 + carry;
+        if (temp < 0) {
+            temp = temp + newBase;
+            carry = -1;
+        } else {
+            carry = 0;
         }
 
-        sum = digit1 - digit2;
-
-        sum = sum % newBase;
-
-        resultingSum.insert(resultingSum.begin(), sum);
+        resultingSum.insert(resultingSum.begin(), temp);
     }
 
     std::string result;
@@ -154,8 +152,10 @@ std::string karatsuba(std::string I1, std::string I2, std::string base) {
             p2Zero.push_back('0');
         }
 
-        std::string subtractionResult1 = subtraction(p2 + " " + p1 + " " + base);
-        std::string subtractionResult2 = subtraction(subtractionResult1 + " " + p0 + " " + base);
+        std::string subtractionResult1 =
+            subtraction(p2 + " " + p1 + " " + base);
+        std::string subtractionResult2 =
+            subtraction(subtractionResult1 + " " + p0 + " " + base);
 
         std::string p1Return = p1 + p1Zero;
         std::string p2Return = subtractionResult2 + p2Zero;
