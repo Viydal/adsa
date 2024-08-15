@@ -26,9 +26,8 @@ std::string addition(std::string input) {
     int carry = 0;
     int sum = 0;
 
-    // std::cout << "HERE" << std::endl;
     int newBase = std::stoi(base);
-    // std::cout << "NOT HERE" << std::endl;
+
     std::vector<int> resultingSum;
     for (size_t i = 0; i < maxLength; i++) {
         sum = 0;
@@ -68,7 +67,6 @@ std::string addition(std::string input) {
 }
 
 std::string subtraction(std::string input) {
-    // std::cout << "WE GET HERE? " << input << std::endl;
     std::stringstream ss(input);
     std::string I1, I2, base;
 
@@ -125,9 +123,67 @@ std::string subtraction(std::string input) {
     return result;
 }
 
+std::string miniMultiplication(std::string input) {
+    std::stringstream ss(input);
+    std::string I1, I2, base;
+
+    ss >> I1 >> I2 >> base;
+
+    std::vector<int> firstNum(I1.length(), 0);
+    std::vector<int> secondNum(I2.length(), 0);
+
+    for (size_t i = 0; i < I1.length(); i++) {
+        firstNum[i] = I1[i] - '0';
+    }
+
+    for (size_t i = 0; i < I2.length(); i++) {
+        secondNum[i] = I2[i] - '0';
+    }
+
+    size_t maxLength = std::max(firstNum.size(), secondNum.size());
+
+    int carry = 0;
+    int sum = 0;
+
+    int newBase = std::stoi(base);
+
+    int digit2;
+    digit2 = secondNum[0];
+
+    std::vector<int> resultingSum;
+    for (size_t i = 0; i < maxLength; i++) {
+        sum = 0;
+
+        int digit1;
+        if (i < firstNum.size()) {
+            digit1 = firstNum[firstNum.size() - 1 - i];
+        } else {
+            digit1 = 0;
+        }
+
+        sum = (digit1 * digit2) + carry;
+
+        carry = floor(sum / newBase);
+
+        sum = sum % newBase;
+
+        resultingSum.insert(resultingSum.begin(), sum);
+    }
+
+    if (carry > 0) {
+        resultingSum.insert(resultingSum.begin(), carry);
+    }
+
+    std::string result;
+    for (size_t i = 0; i < resultingSum.size(); i++) {
+        result = result + std::to_string(resultingSum[i]);
+    }
+    return result;
+}
+
 std::string karatsuba(std::string I1, std::string I2, std::string base) {
     if (I1.length() < 2 || I2.length() < 2) {
-        return std::to_string(std::stoi(I1) * std::stoi(I2));
+        return miniMultiplication(I1 + " " + I2 + " " + base);
     } else {
         int k = std::ceil(std::min(I1.length(), I2.length()) / 2);
 
