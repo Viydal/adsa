@@ -45,26 +45,21 @@ public:
     }
 
     int balanceFactor = getBalanceFactor(node);
-    int leftBalanceFactor = getBalanceFactor(node->left);
-    int rightBalanceFactor = getBalanceFactor(node->right);
-
-    if (balanceFactor > 1) {       // Left subtree longer, rotate right
-      if (leftBalanceFactor < 0) { // Right-left rotation
-        // std::cout << "LEFT RIGHT" << std::endl;
-        node->right = rotateRight(node->right);
-        node = rotateLeft(node);
-      } else if (leftBalanceFactor > 0) { // LEFT LEFT
-        // std::cout << "LEFT LEFT" << std::endl;
-        node = rotateRight(node);
-      }
-    } else if (balanceFactor < -1) { // Right subtree longer, rotate left
-      if (rightBalanceFactor < 0) {  //  RIGHT RIGHT
-        // std::cout << "RIGHT RIGHT" << std::endl;
-        node = rotateLeft(node);
-      } else if (rightBalanceFactor > 0) { // Left-right rotation
-        // std::cout << "RIGHT LEFT" << std::endl;
+    if (balanceFactor > 1) {
+      if (getBalanceFactor(node->left) >= 0) {
+        return rotateRight(node); // Left Left case
+      } else {
         node->left = rotateLeft(node->left);
-        node = rotateRight(node);
+        return rotateRight(node); // Left Right case
+      }
+    }
+
+    if (balanceFactor < -1) {
+      if (getBalanceFactor(node->right) <= 0) {
+        return rotateLeft(node); // Right Right case
+      } else {
+        node->right = rotateRight(node->right);
+        return rotateLeft(node); // Right Left case
       }
     }
     return node;
@@ -97,30 +92,21 @@ public:
       }
 
       int balanceFactor = getBalanceFactor(node);
-      int leftBalanceFactor = getBalanceFactor(node->left);
-      int rightBalanceFactor = getBalanceFactor(node->right);
-
-      // std::cout << "root: " << balanceFactor
-      //           << " left tree: " << leftBalanceFactor
-      //           << " right tree: " << rightBalanceFactor << std::endl;
-
-      if (balanceFactor > 1) {       // Left subtree longer, rotate right
-        if (leftBalanceFactor < 0) { // Right-left rotation
-          // std::cout << "LEFT RIGHT" << std::endl;
-          node->right = rotateRight(node->right);
-          node = rotateLeft(node);
-        } else if (leftBalanceFactor > 0) { // LEFT LEFT
-          // std::cout << "LEFT LEFT" << std::endl;
-          node = rotateRight(node);
-        }
-      } else if (balanceFactor < -1) { // Right subtree longer, rotate left
-        if (rightBalanceFactor < 0) {  //  RIGHT RIGHT
-          // std::cout << "RIGHT RIGHT" << std::endl;
-          node = rotateLeft(node);
-        } else if (rightBalanceFactor > 0) { // Left-right rotation
-          // std::cout << "RIGHT LEFT" << std::endl;
+      if (balanceFactor > 1) {
+        if (getBalanceFactor(node->left) >= 0) {
+          return rotateRight(node); // Left Left case
+        } else {
           node->left = rotateLeft(node->left);
-          node = rotateRight(node);
+          return rotateRight(node); // Left Right case
+        }
+      }
+
+      if (balanceFactor < -1) {
+        if (getBalanceFactor(node->right) <= 0) {
+          return rotateLeft(node); // Right Right case
+        } else {
+          node->right = rotateRight(node->right);
+          return rotateLeft(node); // Right Left case
         }
       }
       return node;
