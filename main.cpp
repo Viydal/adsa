@@ -45,35 +45,33 @@ public:
     }
 
     int balanceFactor = getBalanceFactor(node);
-    int leftBalanceFactor = getBalanceFactor(node->left);
-    int rightBalanceFactor = getBalanceFactor(node->right);
+      int leftBalanceFactor = getBalanceFactor(node->left);
+      int rightBalanceFactor = getBalanceFactor(node->right);
 
-    // std::cout << "root: " << balanceFactor
-    //           << " left tree: " << leftBalanceFactor
-    //           << " right tree: " << rightBalanceFactor << std::endl;
+      // std::cout << "root: " << balanceFactor
+      //           << " left tree: " << leftBalanceFactor
+      //           << " right tree: " << rightBalanceFactor << std::endl;
 
-    if (balanceFactor > 1) {       // Left subtree longer, rotate right
-      if (leftBalanceFactor < 0) { // Right-left rotation
-        // std::cout << "LEFT RIGHT" << std::endl;
-        node->right = rotateRight(node->right);
-        node = rotateLeft(node);
-      } else if (leftBalanceFactor > 0) { // LEFT LEFT
-        // std::cout << "LEFT LEFT" << std::endl;
-        root = rotateRight(root);
+      if (balanceFactor > 1) {       // Left subtree longer, rotate right
+        if (leftBalanceFactor < 0) { // Right-left rotation
+          // std::cout << "LEFT RIGHT" << std::endl;
+          node->right = rotateRight(node->right);
+          node = rotateLeft(node);
+        } else if (leftBalanceFactor > 0) { // LEFT LEFT
+          // std::cout << "LEFT LEFT" << std::endl;
+          node = rotateRight(node);
+        }
+      } else if (balanceFactor < -1) { // Right subtree longer, rotate left
+        if (rightBalanceFactor < 0) {  //  RIGHT RIGHT
+          // std::cout << "RIGHT RIGHT" << std::endl;
+          node = rotateLeft(node);
+        } else if (rightBalanceFactor > 0) { // Left-right rotation
+          // std::cout << "RIGHT LEFT" << std::endl;
+          node->left = rotateLeft(node->left);
+          node = rotateRight(node);
+        }
       }
-    } else if (balanceFactor < -1) { // Right subtree longer, rotate left
-      if (rightBalanceFactor < 0) {  //  RIGHT RIGHT
-        // std::cout << "RIGHT RIGHT" << std::endl;
-        node = rotateLeft(node);
-      } else if (rightBalanceFactor > 0) { // Left-right rotation
-        // std::cout << "RIGHT LEFT" << std::endl;
-        node->left = rotateLeft(node->left);
-        // std::cout << "testing" << std::endl;
-        node = rotateRight(node);
-      }
-    }
     return node;
-    // Otherwise tree is already balanced
   }
 
   Node *deleteNode(Node *node, int value) {
@@ -98,7 +96,7 @@ public:
 
           node->data = maxNode->data;
 
-          node->left = deleteNode(node->left, node->data);
+          node->left = deleteNode(node->left, maxNode->data);
         }
       }
 
@@ -117,7 +115,7 @@ public:
           node = rotateLeft(node);
         } else if (leftBalanceFactor > 0) { // LEFT LEFT
           // std::cout << "LEFT LEFT" << std::endl;
-          root = rotateRight(root);
+          node = rotateRight(node);
         }
       } else if (balanceFactor < -1) { // Right subtree longer, rotate left
         if (rightBalanceFactor < 0) {  //  RIGHT RIGHT
@@ -178,7 +176,7 @@ public:
 
   Node *rotateRight(Node *node) {
     if (node == nullptr || node->left == nullptr) {
-        return node;
+      return node;
     }
     Node *newRoot = node->left;
     Node *rightSub = newRoot->right;
@@ -191,7 +189,7 @@ public:
 
   Node *rotateLeft(Node *node) {
     if (node == nullptr || node->right == nullptr) {
-        return node;
+      return node;
     }
 
     Node *newRoot = node->right;
@@ -276,6 +274,9 @@ int main() {
   }
 
   Node *root = tree.getRoot();
+  if (root == nullptr) {
+    std::cout << "EMPTY" << std::endl;
+  }
 
   if (printType == "PRE") {
     tree.printPreorder(root);
