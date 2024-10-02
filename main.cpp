@@ -20,7 +20,8 @@ public:
 
     int counter = 0;
     while (counter < 26) {
-      if (std::get<1>(table[hashKey]) == "never used") {
+      if (std::get<1>(table[hashKey]) == "never used" ||
+          std::get<1>(table[hashKey]) == "tombstone") {
         return hashKey;
       } else {
         hashKey++;
@@ -35,7 +36,8 @@ public:
   }
 
   void insertValue(std::string key) {
-    std::tuple<std::string, std::string> newTuple = std::make_tuple(key, "occupied");
+    std::tuple<std::string, std::string> newTuple =
+        std::make_tuple(key, "occupied");
 
     int pos = searchKey(key);
 
@@ -82,6 +84,7 @@ public:
         std::cout << key << " ";
       }
     }
+    std::cout << std::endl;
   }
 };
 
