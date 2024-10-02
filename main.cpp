@@ -23,6 +23,8 @@ public:
       if (std::get<1>(table[hashKey]) == "never used" ||
           std::get<1>(table[hashKey]) == "tombstone") {
         return hashKey;
+      } else if (std::get<0>(table[hashKey]) == key) {
+        return -1;
       } else {
         hashKey++;
         if (hashKey > 25) {
@@ -42,7 +44,7 @@ public:
     int pos = searchKey(key);
 
     if (pos == -1) {
-      std::cout << "NOT ENOUGH SPACE." << std::endl;
+      // std::cout << "INVALID ADDITION" << std::endl;
       return;
     } else {
       table[pos] = newTuple;
