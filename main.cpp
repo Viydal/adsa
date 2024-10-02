@@ -35,7 +35,7 @@ public:
   }
 
   void insertValue(std::string key) {
-    std::tuple newTuple = std::make_tuple(key, "occupied");
+    std::tuple<std::string, std::string> newTuple = std::make_tuple(key, "occupied");
 
     int pos = searchKey(key);
 
