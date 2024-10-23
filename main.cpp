@@ -186,7 +186,7 @@ public:
 
             std::cout << "ATTEMPTING SWAP | " << index1 << " to " << index2 << std::endl;
             for (size_t k = 0; k < perfectEdges.size(); k++) {
-              if (uf.find(perfectEdges[k].a) == root || uf.find(perfectEdges[k].b) == root) {
+              if (uf.find(perfectEdges[k].a) == root && uf.find(perfectEdges[k].b) == root) {
                 std::cout << "SWAP INTIATED | " << index1 << " to " << index2 << " with cost " << perfectEdges[k].weight << std::endl;
                 initialWeight += perfectEdges[k].weight;
 
@@ -197,11 +197,14 @@ public:
                 for (size_t l = 0; l < perfectEdges.size(); l++) {
                   if (uf.find(index1) != uf.find(index2)) {
                     uf.link(perfectEdges[l].a, perfectEdges[l].b);
+                    perfectEdges.push_back(destroyEdges[k]);
                   }
                 }
                 uf.link(index1, index2);
 
                 uf.printPandS();
+
+                std::cout << std::endl;
               }
             }
           }
