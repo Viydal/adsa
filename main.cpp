@@ -145,7 +145,7 @@ public:
 
     for (size_t i = 0; i < buildEdges.size(); i++) {
       if (uf.find(buildEdges[i].a) != uf.find(buildEdges[i].b)) {
-        std::cout << "ADDING CONNECTION | " << buildEdges[i].a << " to " << buildEdges[i].b << " with cost " << buildEdges[i].weight << std::endl;
+        // std::cout << "ADDING CONNECTION | " << buildEdges[i].a << " to " << buildEdges[i].b << " with cost " << buildEdges[i].weight << std::endl;
         weight += buildEdges[i].weight;
         uf.link(buildEdges[i].a, buildEdges[i].b);
       }
@@ -172,7 +172,7 @@ public:
           if (uf.find(index1) != uf.find(index2)) {
             for (size_t k = 0; k < destroyEdges.size(); k++) {
               if ((destroyEdges[k].a == index1 && destroyEdges[k].b == index2) || (destroyEdges[k].b == index1 && destroyEdges[k].a == index2)) {
-                std::cout << "ADDING CONNECTION | " << destroyEdges[k].a << " to " << destroyEdges[k].b << std::endl;
+                // std::cout << "ADDING CONNECTION | " << destroyEdges[k].a << " to " << destroyEdges[k].b << std::endl;
 
                 bool found = false;
                 for (size_t l = 0; l < perfectEdges.size(); l++) {
@@ -187,17 +187,17 @@ public:
                   uf.link(index1, index2);
                 }
                 
-                uf.printPandS();
-                std::cout << std::endl;
+                // uf.printPandS();
+                // std::cout << std::endl;
               }
             }
           } else {
             int root = uf.find(index1);
 
-            std::cout << "ATTEMPTING SWAP | " << index1 << " to " << index2 << std::endl;
+            // std::cout << "ATTEMPTING SWAP | " << index1 << " to " << index2 << std::endl;
             for (size_t k = 0; k < perfectEdges.size(); k++) {
               if (uf.find(perfectEdges[k].a) == root && uf.find(perfectEdges[k].b) == root) {
-                std::cout << "SWAP INTIATED | DELETING " << perfectEdges[k].a << " to " << perfectEdges[k].b << " with cost " << perfectEdges[k].weight << std::endl;
+                // std::cout << "SWAP INTIATED | DELETING " << perfectEdges[k].a << " to " << perfectEdges[k].b << " with cost " << perfectEdges[k].weight << std::endl;
                 initialWeight += perfectEdges[k].weight;
 
                 perfectEdges.erase(perfectEdges.begin() + k);
@@ -212,9 +212,9 @@ public:
 
                 uf.link(index1, index2);
 
-                uf.printPandS();
+                // uf.printPandS();
 
-                std::cout << std::endl;
+                // std::cout << std::endl;
                 break;
               }
             }
@@ -277,20 +277,20 @@ int main() {
     }
   }
 
-  std::cout << "Build Costs:" << std::endl;
-  for (const auto &cost : buildCost) {
-        std::cout << cost << std::endl;
-    }
+  // std::cout << "Build Costs:" << std::endl;
+  // for (const auto &cost : buildCost) {
+  //       std::cout << cost << std::endl;
+  //   }
 
-    std::cout << "Destroy Costs:" << std::endl;
-    for (const auto &cost : destroyCost) {
-        std::cout << cost << std::endl;
-    }
+  //   std::cout << "Destroy Costs:" << std::endl;
+  //   for (const auto &cost : destroyCost) {
+  //       std::cout << cost << std::endl;
+  //   }
 
-    std::cout << "City Connections:" << std::endl;
-    for (const auto &connection : cityConnections) {
-        std::cout << connection << std::endl;
-    }
+  //   std::cout << "City Connections:" << std::endl;
+  //   for (const auto &connection : cityConnections) {
+  //       std::cout << connection << std::endl;
+  //   }
 
   std::cout << mst.createMST(cityConnections, buildCost, destroyCost) << std::endl;
 }
