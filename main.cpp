@@ -227,11 +227,59 @@ public:
 int main() {
   MST mst;
 
-  std::getline
+  std::string input;
+
+  std::getline(std::cin, input);
+
+  std::stringstream ss(input);
 
   std::vector<std::string> cityConnections;
-  std::vector<std::string> buildCos;
+  std::vector<std::string> buildCost;
   std::vector<std::string> destroyCost;
+
+  std::string section;
+
+  // City Connections
+  if (std::getline(ss, section, ' ')) {
+    std::stringstream citySS(section);
+    std::string connection;
+    while (std::getline(citySS, connection, ',')) {
+      cityConnections.push_back(connection);
+    }
+  }
+
+  // Build Costs
+  if (std::getline(ss, section, ' ')) {
+    std::stringstream buildSS(section);
+    std::string cost;
+    while (std::getline(buildSS, cost, ',')) {
+        buildCost.push_back(cost);
+    }
+  }
+
+  // Destroy Costs
+  if (std::getline(ss, section, ' ')) {
+    std::stringstream destroySS(section);
+    std::string cost;
+    while (std::getline(destroySS, cost, ',')) {
+        destroyCost.push_back(cost);
+    }
+  }
+
+  std::cout << "Build Costs:" << std::endl;
+  for (const auto &cost : buildCost) {
+        std::cout << cost << std::endl;
+    }
+
+    std::cout << "Destroy Costs:" << std::endl;
+    for (const auto &cost : destroyCost) {
+        std::cout << cost << std::endl;
+    }
+
+    std::cout << "City Connections:" << std::endl;
+    for (const auto &connection : cityConnections) {
+        std::cout << connection << std::endl;
+    }
 
   std::cout << mst.createMST(cityConnections, buildCost, destroyCost) << std::endl;
 }
