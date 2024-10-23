@@ -227,9 +227,11 @@ public:
 int main() {
   MST mst;
 
-  std::vector<std::string> cityConnections = {"011000","101000","110000","000011","000101","000110"};
-  std::vector<std::string> buildCost = {"ABDFFF","BACFFF","DCAFFF","FFFABD","FFFBAC","FFFDCA"};
-  std::vector<std::string> destroyCost = {"ABDFFF","BACFFF","DCAFFF","FFFABD","FFFBAC","FFFDCA"};
+  std::getline
+
+  std::vector<std::string> cityConnections;
+  std::vector<std::string> buildCos;
+  std::vector<std::string> destroyCost;
 
   std::cout << mst.createMST(cityConnections, buildCost, destroyCost) << std::endl;
 }
